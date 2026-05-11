@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html, body {
+  background: radial-gradient(1200px 600px at 20% -10%, rgba(245,196,81,0.08), transparent 60%),
+              radial-gradient(900px 500px at 90% 10%, rgba(99,140,255,0.08), transparent 60%),
+              #0b0d12;
+  color: #e6e9f3;
+  min-height: 100%;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.gradient-text {
+  background: linear-gradient(120deg, #f5c451 0%, #ffe7a8 30%, #c98a1a 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.card-hover {
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease, background .25s ease;
+}
+.card-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 40px rgba(245,196,81,0.18);
+  border-color: rgba(245,196,81,0.5);
+}
+
+.scroll-hide::-webkit-scrollbar { display: none; }
+.scroll-hide { scrollbar-width: none; }
