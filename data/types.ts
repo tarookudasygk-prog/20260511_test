@@ -9,6 +9,23 @@ export type Character = {
   glyph?: string;
   /** Short tagline shown on the encyclopedia card */
   tagline?: string;
+  /** Image URL (Wikipedia/Wikimedia preferred). Optional. */
+  imageUrl?: string;
+  /** Image credit/license note */
+  imageCredit?: string;
+};
+
+export type Insight = {
+  headline: string;
+  body: string;
+  /** Rich detail shown in a modal — background, why it matters, what to watch */
+  detail?: string;
+};
+
+export type WatchPoint = {
+  item: string;
+  /** Rich detail shown in a modal */
+  detail?: string;
 };
 
 export type Company = {
@@ -41,9 +58,11 @@ export type Company = {
   /** Publicly disclosed quantitative targets (only verifiable ones; mark unknown explicitly). */
   targets: { label: string; value: string; note?: string }[];
   /** 3-5 "insight" bullets framed for practitioners — strategic논点 derived from the public plan. */
-  insights: { headline: string; body: string }[];
+  insights: Insight[];
   /** What to watch — forward-looking signals that matter for the next 12-24 months. */
-  watch: string[];
+  watch: WatchPoint[];
+  /** Company logo image URL */
+  logoUrl?: string;
   /** Pointers to source documents users can read themselves. */
   sources: Source[];
 };

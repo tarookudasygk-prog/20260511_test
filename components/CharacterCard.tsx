@@ -1,8 +1,17 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 import type { Company } from "@/data/types";
 
 export function CharacterCard({ company }: { company: Company }) {
   const main = company.characters[0];
+  const [logoErr, setLogoErr] = useState(false);
+  const [imgErr, setImgErr] = useState(false);
+
+  const hasCharImg = !!main.imageUrl && !imgErr;
+  const hasLogo = !!company.logoUrl && !logoErr;
+
   return (
     <Link
       href={`/companies/${company.id}`}
@@ -19,14 +28,37 @@ export function CharacterCard({ company }: { company: Company }) {
       </div>
 
       <div
-        className="mt-3 flex h-32 items-center justify-center rounded-xl border border-ink-600/60"
+        className="relative mt-3 flex h-32 items-center justify-center overflow-hidden rounded-xl border border-ink-600/60"
         style={{
           background: `linear-gradient(135deg, ${company.gradient[0]}55, ${company.gradient[1]}55)`,
         }}
       >
-        <div className="text-6xl drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
-          {main.glyph ?? "★"}
-        </div>
+        {hasCharImg ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={main.imageUrl}
+            alt={main.name}
+            loading="lazy"
+            onError={() => setImgErr(true)}
+            className="h-full w-full object-contain p-2"
+          />
+        ) : (
+          <div className="text-6xl drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
+            {main.glyph ?? "★"}
+          </div>
+        )}
+        {hasLogo && (
+          <div className="absolute bottom-1.5 right-1.5 flex h-7 items-center justify-center rounded bg-white/90 px-1.5">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={company.logoUrl}
+              alt={`${company.name} logo`}
+              loading="lazy"
+              onError={() => setLogoErr(true)}
+              className="h-4 max-w-[64px] object-contain"
+            />
+          </div>
+        )}
       </div>
 
       <div className="mt-4">
