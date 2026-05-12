@@ -2,9 +2,16 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "IP企業ストラテジー図鑑 | Strategic IP Company Codex",
+  title: "図書館蔵書ファインダー | Library Finder",
   description:
-    "代表IPキャラクターを入口に、各社の公開中期経営計画から読み解く戦略示唆を実務向けに整理したインタラクティブ図鑑。",
+    "ISBN・書名からお住まいの地域の図書館の蔵書状況を横断検索できる蔵書ファインダー。カーリル蔵書検索 API を利用しています。",
+  openGraph: {
+    title: "図書館蔵書ファインダー",
+    description:
+      "本がいまどの図書館で借りられるか、ISBN・書名から横断検索できるサービス。",
+    type: "website",
+    locale: "ja_JP",
+  },
 };
 
 export default function RootLayout({
@@ -14,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
-      <body className="font-sans antialiased">{children}</body>
+      <body className="font-sans">{children}</body>
     </html>
   );
 }
