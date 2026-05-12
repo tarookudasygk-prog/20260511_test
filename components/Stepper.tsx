@@ -18,49 +18,63 @@ export function Stepper({ current, bookDone, libDone, onJump }: Props) {
     return bookDone && libDone;
   }
 
+  function disabledHint(n: 1 | 2 | 3): string | null {
+    if (n === 2 && !bookDone) return "まずステップ 1 で書籍を選択してください";
+    if (n === 3 && !bookDone) return "まずステップ 1 で書籍を選択してください";
+    if (n === 3 && !libDone) return "ステップ 2 で図書館を 1 つ以上選択してください";
+    return null;
+  }
+
   return (
-    <ol className="flex flex-wrap items-center gap-2 text-sm">
-      {STEPS.map((s, i) => {
-        const active = current === s.n;
-        const done =
-          (s.n === 1 && bookDone) || (s.n === 2 && libDone) || (s.n === 3 && current === 3);
-        const clickable = canJump(s.n);
-        return (
-          <li key={s.n} className="flex items-center gap-2">
-            <button
-              onClick={() => clickable && onJump(s.n)}
-              disabled={!clickable}
-              className={[
-                "flex items-center gap-2 rounded-full border px-3 py-1.5 transition",
-                active
-                  ? "border-brand-500 bg-brand-500 text-paper-50"
-                  : done
-                  ? "border-brand-200 bg-brand-50 text-brand-600"
-                  : "border-paper-300 bg-white text-ink-500",
-                clickable && !active ? "hover:border-brand-400" : "",
-                !clickable ? "opacity-60" : "",
-              ].join(" ")}
-            >
-              <span
+    <div className="space-y-2">
+      <ol className="flex flex-wrap items-center gap-2 text-sm">
+        {STEPS.map((s, i) => {
+          const active = current === s.n;
+          const done =
+            (s.n === 1 && bookDone) ||
+            (s.n === 2 && libDone) ||
+            (s.n === 3 && current === 3);
+          const clickable = canJump(s.n);
+          const hint = disabledHint(s.n);
+          return (
+            <li key={s.n} className="flex items-center gap-2">
+              <button
+                onClick={() => clickable && onJump(s.n)}
+                disabled={!clickable}
+                title={hint ?? undefined}
                 className={[
-                  "inline-flex h-5 w-5 items-center justify-center rounded-full text-[11px] font-bold",
+                  "flex items-center gap-2 rounded-full border px-3 py-1.5 transition",
                   active
-                    ? "bg-paper-50 text-brand-600"
+                    ? "border-brand-500 bg-brand-500 text-paper-50"
                     : done
-                    ? "bg-brand-500 text-paper-50"
-                    : "bg-paper-100 text-ink-500",
+                    ? "border-brand-200 bg-brand-50 text-brand-600"
+                    : "border-paper-300 bg-white text-ink-500",
+                  clickable && !active ? "hover:border-brand-400" : "",
+                  !clickable ? "opacity-60 cursor-not-allowed" : "",
                 ].join(" ")}
               >
-                {done && !active ? "✓" : s.n}
-              </span>
-              <span className="font-medium">{s.label}</span>
-            </button>
-            {i < STEPS.length - 1 && (
-              <span className="text-paper-300">›</span>
-            )}
-          </li>
-        );
-      })}
-    </ol>
+                <span
+                  className={[
+                    "inline-flex h-5 w-5 items-center justify-center rounded-full text-[11px] font-bold",
+                    active
+                      ? "bg-paper-50 text-brand-600"
+                      : done
+                      ? "bg-brand-500 text-paper-50"
+                      : "bg-paper-100 text-ink-500",
+                  ].join(" ")}
+                >
+                  {done && !active ? "✓" : s.n}
+                </span>
+                <span className="font-medium">{s.label}</span>
+              </button>
+              {i < STEPS.length - 1 && <span className="text-paper-300">›</span>}
+            </li>
+          );
+        })}
+      </ol>
+      <p className="text-[11px] text-ink-500">
+        ステップは順番に進みます。書籍を選ぶと自動で次へ進みます。
+      </p>
+    </div>
   );
 }
